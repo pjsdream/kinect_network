@@ -2,15 +2,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#ifdef _WIN32
+#pragma warning(disable:4996)
+#endif
 
 namespace kinect_network
 {
 
-KinectReceiver::KinectReceiver()
+KinectReceiver::KinectReceiver(const std::string& ip, int port)
     : skeleton_tracking_states_(num_bodies_)
     , skeletons_(num_bodies_)
 {
-    initializeSubscriber();
+    initializeSubscriber(ip, port);
 }
 
 KinectReceiver::~KinectReceiver()
@@ -20,11 +23,16 @@ KinectReceiver::~KinectReceiver()
     delete network_context_;
 }
 
-void KinectReceiver::initializeSubscriber()
+void KinectReceiver::initializeSubscriber(const std::string& ip, int port)
 {
     network_context_ = new zmq::context_t(1);
     subscriber_ = new zmq::socket_t(*network_context_, ZMQ_SUB);
-    subscriber_->connect("tcp://localhost:5556");
+
+    char address[128];
+    sprintf(address, "tcp://%s:%d", ip.c_str(), port);
+
+    subscriber_->connect(address);
+    subscriber_->setsockopt(ZMQ_SUBSCRIBE, "", 0);
 }
 
 void KinectReceiver::run()

@@ -19,12 +19,12 @@ static inline void SafeRelease(Interface *& pInterfaceToRelease)
 namespace kinect_network
 {
 
-KinectSender::KinectSender()
+KinectSender::KinectSender(const std::string& ip, int port)
     : skeleton_tracking_states_(num_bodies_)
     , skeletons_(num_bodies_)
 {
     initializeSensor();
-    initializePublisher();
+    initializePublisher(ip, port);
 }
 
 KinectSender::~KinectSender()
@@ -90,11 +90,15 @@ HRESULT KinectSender::initializeSensor()
     return hr;
 }
 
-void KinectSender::initializePublisher()
+void KinectSender::initializePublisher(const std::string& ip, int port)
 {
     network_context_ = new zmq::context_t(1);
     publisher_ = new zmq::socket_t(*network_context_, ZMQ_PUB);
-    publisher_->bind("tcp://*:5556");
+    
+    char address[128];
+    sprintf(address, "tcp://%s:%d", ip.c_str(), port);
+
+    publisher_->bind(address);
 }
 
 void KinectSender::run()

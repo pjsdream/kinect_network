@@ -18,7 +18,7 @@ private:
 
 public:
 
-    KinectReceiver();
+    KinectReceiver(const std::string& ip, int port);
     ~KinectReceiver();
 
     void run();
@@ -26,7 +26,7 @@ public:
 private:
     
     // network
-    void initializeSubscriber();
+    void initializeSubscriber(const std::string& ip, int port);
 
     // skeleton data
     std::vector<char> skeleton_tracking_states_;

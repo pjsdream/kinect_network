@@ -164,7 +164,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\kinect_network\kinect\skeleton.h" />
-    <ClInclude Include="..\include\kinect_network\kinect_reciever\kinect_receiver.h" />
+    <ClInclude Include="..\include\kinect_network\kinect_receiver\kinect_receiver.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -19,7 +19,7 @@ private:
 
 public:
 
-    KinectSender();
+    KinectSender(const std::string& ip, int port);
     ~KinectSender();
 
     void run();
@@ -33,7 +33,7 @@ private:
     void sendSkeletons();
 
     // network
-    void initializePublisher();
+    void initializePublisher(const std::string& ip, int port);
 
     // sensor
     IKinectSensor* kinect_sensor_;
