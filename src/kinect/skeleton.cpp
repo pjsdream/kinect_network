@@ -34,9 +34,11 @@ const std::vector<std::string> Skeleton::joint_names_ =
 };
 
 Skeleton::Skeleton()
-    : joint_positions_(num_joints_)
-    , joint_states_(num_joints_, JointNotTracked)
+    : left_hand_state_(HandStateUnknown)
+    , right_hand_state_(HandStateUnknown)
 {
+    for (int i=0; i<num_joints_; i++)
+        joint_states_[i] = JointNotTracked;
 }
 
 void Skeleton::setJointPosition(int joint_index, const Eigen::Vector3f& position)
@@ -49,7 +51,7 @@ void Skeleton::setJointState(int joint_index, JointState joint_state)
     joint_states_[joint_index] = joint_state;
 }
 
-void Skeleton::printSkeleton()
+void Skeleton::printSkeleton() const
 {
     for (int i=0; i<num_joints_; i++)
     {

@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#pragma warning(disable:4996)
 
 // Safe release for interfaces
 template<class Interface>
@@ -19,8 +20,11 @@ namespace kinect_network
 {
 
 KinectSender::KinectSender()
+    : skeleton_tracking_states_(num_bodies_)
+    , skeletons_(num_bodies_)
 {
     initializeSensor();
+    initializePublisher();
 }
 
 KinectSender::~KinectSender()
@@ -36,6 +40,10 @@ KinectSender::~KinectSender()
         kinect_sensor_->Close();
 
     SafeRelease(kinect_sensor_);
+
+    // network
+    delete publisher_;
+    delete network_context_;
 }
 
 HRESULT KinectSender::initializeSensor()
@@ -82,6 +90,13 @@ HRESULT KinectSender::initializeSensor()
     return hr;
 }
 
+void KinectSender::initializePublisher()
+{
+    network_context_ = new zmq::context_t(1);
+    publisher_ = new zmq::socket_t(*network_context_, ZMQ_PUB);
+    publisher_->bind("tcp://*:5556");
+}
+
 void KinectSender::run()
 {
     while (true)
@@ -112,6 +127,9 @@ void KinectSender::run()
             if (SUCCEEDED(hr))
             {
                 processBody(time, bodies);
+
+                // send skeleton through network
+                sendSkeletons();
             }
 
             for (int i = 0; i < _countof(bodies); ++i)
@@ -138,6 +156,8 @@ void KinectSender::processBody(INT64 time, IBody** bodies)
 
             if (SUCCEEDED(hr) && tracked)
             {
+                skeleton_tracking_states_[i] = true;
+
                 Joint joints[JointType_Count]; 
                 HandState left_hand_state = HandState_Unknown;
                 HandState right_hand_state = HandState_Unknown;
@@ -146,10 +166,6 @@ void KinectSender::processBody(INT64 time, IBody** bodies)
                 body->get_HandRightState(&right_hand_state);
 
                 hr = body->GetJoints(_countof(joints), joints);
-
-                // joints and hand states
-
-                printf("Body %d found\n", i);
 
                 for (int j=0; j<Skeleton::numJoints(); j++)
                 {
@@ -179,6 +195,30 @@ void KinectSender::processBody(INT64 time, IBody** bodies)
                     skeletons_[i].setJointState(j, joint_state);
                 }
             }
+            else
+            {
+                skeleton_tracking_states_[i] = false;
+            }
+        }
+    }
+}
+
+void KinectSender::sendSkeletons()
+{
+    zmq::message_t msg(sizeof(int) + sizeof(Skeleton));
+
+    for (int i=0; i<num_bodies_; i++)
+    {
+        if (skeleton_tracking_states_[i])
+        {
+            // first 4 byte field is the body id
+            *(int*)msg.data() = i;
+
+            // next, skeleton data follows
+            memcpy((int *)msg.data() + 1, &skeletons_[i], sizeof(Skeleton));
+
+            publisher_->send(msg);
+            printf("Sent body %d\n", i);
         }
     }
 }

@@ -1,8 +1,6 @@
 #ifndef KINECT_NETWORK_SKELETON_H
 #define KINECT_NETWORK_SKELETON_H
 
-#include <Kinect.h>
-
 #include <vector>
 #include <string>
 #include <Eigen/Dense>
@@ -14,7 +12,7 @@ class Skeleton
 {
 private:
 
-    static const int num_joints_ = JointType_Count;
+    static const int num_joints_ = 25;
     static const std::vector<std::string> joint_names_;
 
 public:
@@ -30,6 +28,15 @@ public:
         JointInferred = 1,
         JointTracked = 2,
     };
+    
+    enum HandState
+    {
+        HandStateUnknown = 0,
+        HandStateNotTracked = 1,
+        HandStateOpen = 2,
+        HandStateClosed = 3,
+        HandStateLasso = 4,
+    } ;
 
 public:
 
@@ -37,13 +44,26 @@ public:
 
     void setJointPosition(int joint_index, const Eigen::Vector3f& joint_position);
     void setJointState(int joint_index, JointState joint_state);
+    
+    inline void setLeftHandState(HandState hand_state)
+    {
+        left_hand_state_ = hand_state;
+    }
 
-    void printSkeleton();
+    inline void setRightHandState(HandState hand_state)
+    {
+        right_hand_state_ = hand_state;
+    }
+
+    void printSkeleton() const;
 
 private:
 
-    std::vector<Eigen::Vector3f> joint_positions_;
-    std::vector<JointState> joint_states_;
+    Eigen::Vector3f joint_positions_[num_joints_];
+    JointState joint_states_[num_joints_];
+
+    HandState left_hand_state_;
+    HandState right_hand_state_;
 };
 
 }

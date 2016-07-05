@@ -1,1 +1,7 @@
 Eigen
+
+# zmq
+zmq.h
+zmq_utils.h
+zmq.hpp
+zmq_addons.h
