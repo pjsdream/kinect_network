@@ -26,5 +26,5 @@ $ kinect_receiver IP_ADDR PORT
 
 ## Examples
 
-$ kinect_sender 127.0.0.1 5556  
-$ kinect_receiver 127.0.0.1 5556
+$ kinect_sender (sender's ip) 5556  
+$ kinect_receiver (sender's ip) 5556
