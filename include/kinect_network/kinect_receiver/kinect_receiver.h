@@ -2,7 +2,9 @@
 #define KINECT_NETWORK_KINECT_RECEIVER_H
 
 // to remove redefinition conflict with winsock.h
+#ifdef _WIN32
 #include <WinSock2.h>
+#endif
 
 #include <kinect_network/kinect/skeleton.h>
 #include <zmq.hpp>
