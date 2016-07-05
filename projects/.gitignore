@@ -3,4 +3,5 @@ Release
 x64
 *.user
 *.sdf
+*.VC.opendb
 .vs

@@ -86,6 +86,8 @@
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(KINECTSDK20_DIR)\inc;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
     <LibraryPath>$(KINECTSDK20_DIR)\lib\x64;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
+    <OutDir>$(SolutionDir)..\bin</OutDir>
+    <TargetName>$(ProjectName)d</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -95,6 +97,7 @@
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(KINECTSDK20_DIR)\inc;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
     <LibraryPath>$(KINECTSDK20_DIR)\lib\x64;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
+    <OutDir>$(SolutionDir)..\bin</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
