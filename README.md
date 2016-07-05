@@ -12,9 +12,12 @@ My personal project for communicating betwee Windows and Linux
 7. Download libzmq helper header file (https://github.com/imatix/zguide/blob/master/examples/C/zhelpers.h) and copy it to include/
 8. Open msvc solution file (projects/kinect_network.sln) and build all
 
-## Build kinect_receiver on Linux
+## Build kinect_receiver with ROS on Linux
 
 1. git clone
+2. Download libzmq (http://zeromq.org/intro:get-the-software) 4.1.5 (Linux sources recommended) and copy zmq.h and zmq_utils.h to include/.
+3. Download libzmq C++ bindings (http://zeromq.org/bindings:cpp) i.e., 2 header files, and copy them to include/
+4. catkin_make --pkg kinect_network
 
 ## Run kinect_sender
 
@@ -22,9 +25,16 @@ $ kinect_sender IP_ADDR PORT
 
 ## Run kinect_receiver
 
-$ kinect_receiver IP_ADDR PORT
+$ kinect_receiver IP_ADDR PORT  
+or  
+$ rosrun kinect_network kinect_receiver IP_ADDR PORT
 
 ## Examples
 
-$ kinect_sender (sender's ip) 5556  
-$ kinect_receiver (sender's ip) 5556
+On Windows:  
+$ kinect_sender (sender's ip) 5556
+
+On Linux:  
+$ kinect_receiver (sender's ip) 5556  
+or  
+$ rosrun kinect_network kinect_receiver (sender's ip) 5556
