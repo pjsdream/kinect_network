@@ -14,7 +14,7 @@ namespace kinect_network
 
 class KinectReceiver
 {
-private:
+protected:
 
     static const int num_bodies_ = 6;
 
@@ -23,12 +23,9 @@ public:
     KinectReceiver(const std::string& ip, int port);
     ~KinectReceiver();
 
-    void run();
+    virtual void run();
 
-private:
-    
-    // network
-    void initializeSubscriber(const std::string& ip, int port);
+protected:
 
     // skeleton data
     std::vector<char> skeleton_tracking_states_;
@@ -37,6 +34,11 @@ private:
     // network
     zmq::context_t* network_context_;
     zmq::socket_t* subscriber_;
+
+private:
+    
+    // network
+    void initializeSubscriber(const std::string& ip, int port);
 };
 
 }

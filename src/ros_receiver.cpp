@@ -1,4 +1,6 @@
-#include <kinect_network/kinect_receiver/kinect_receiver.h>
+#include <kinect_network/kinect_receiver/ros_kinect_receiver.h>
+
+#include <ros/ros.h>
 
 int main(int argc, char** argv)
 {
@@ -8,7 +10,9 @@ int main(int argc, char** argv)
         return 1;
     }
 
-    kinect_network::KinectReceiver receiver(argv[1], atoi(argv[2]));
+    ros::init(argc, argv, "ros_kinect_receiver");
+
+    kinect_network::RosKinectReceiver receiver(argv[1], atoi(argv[2]));
 
     receiver.run();
 

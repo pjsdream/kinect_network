@@ -20,12 +20,13 @@ add_custom_target(dummy_${PROJECT_NAME} SOURCES ${extra_files})
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   roscpp
+  tf
 )
 
 ## System dependencies are found with CMake's conventions
-#find_package(Boost REQUIRED COMPONENTS
-#  system
-#)
+find_package(Boost REQUIRED COMPONENTS
+  system
+)
 
 # cmake_modules
 find_package(cmake_modules REQUIRED)
@@ -131,16 +132,21 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-include_directories(include)
+include_directories(include lib)
 include_directories(
   ${Eigen_INCLUDE_DIRS}
+  ${Boost_INCLUDE_DIRS}
   ${catkin_INCLUDE_DIRS}
 )
 
+link_directories(
+  ${Boost_LIBRARY_DIRS}
+)
+
 ## Declare a C++ library
-# add_library(itomp_exec
-#   src/${PROJECT_NAME}/itomp_exec.cpp
-# )
+add_library(kinect_common
+  src/kinect/skeleton.cpp
+)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -152,25 +158,31 @@ include_directories(
 add_executable(kinect_receiver
   src/receiver.cpp
   src/kinect_receiver/kinect_receiver.cpp
-  src/kinect/skeleton.cpp
 )
-#add_executable(ros_kinect_receiver src/ros_receiver.cpp)
+add_executable(ros_kinect_receiver
+  src/ros_receiver.cpp
+  src/kinect_receiver/kinect_receiver.cpp
+  src/kinect_receiver/ros_kinect_receiver.cpp
+)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(itomp_exec_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(itomp_exec_node
-#   ${catkin_LIBRARIES}
-# )
-target_link_libraries(kinect_receiver
+target_link_libraries(kinect_common
   ${catkin_LIBRARIES}
-  zmq
 )
-#target_link_libraries(ros_kinect_receiver
-#  ${catkin_LIBRARIES}
-#)
+target_link_libraries(kinect_receiver
+  zmq
+  kinect_common
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(ros_kinect_receiver
+  zmq
+  kinect_common
+  ${catkin_LIBRARIES}
+)
 
 #############
 ## Install ##

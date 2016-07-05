@@ -36,7 +36,7 @@ public:
         HandStateOpen = 2,
         HandStateClosed = 3,
         HandStateLasso = 4,
-    } ;
+    };
 
 public:
 
@@ -53,6 +53,16 @@ public:
     inline void setRightHandState(HandState hand_state)
     {
         right_hand_state_ = hand_state;
+    }
+
+    inline const Eigen::Vector3f& getJointPosition(int joint_index) const
+    {
+        return joint_positions_[joint_index];
+    }
+
+    inline const std::string& getJointName(int joint_index) const
+    {
+        return joint_names_[joint_index];
     }
 
     void printSkeleton() const;
