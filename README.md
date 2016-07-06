@@ -76,4 +76,4 @@ $ rosrun kinect_network kinect_receiver (sender's ip) 5556
 
 ## Launch
 
-$ roslaunch vi
+$ roslaunch kinect_network kinect_receiver.launch ip:=(ip address) port:=(port number)
