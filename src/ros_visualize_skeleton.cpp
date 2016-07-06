@@ -81,7 +81,7 @@ void visualizeSkeleton(int body_id, const std::vector<Eigen::Vector3d>& joint_po
     marker.scale.x = radius * 2.;
     marker.scale.y = radius * 2.;
     marker.scale.z = radius * 2.;
-    marker.lifetime = ros::Duration(0.);
+    marker.lifetime = ros::Duration(0.1);
 
     marker.type = visualization_msgs::Marker::SPHERE;
     for (int i=0; i<joint_positions.size(); i++)

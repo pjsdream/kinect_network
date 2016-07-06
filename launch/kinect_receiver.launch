@@ -1,0 +1,13 @@
+<launch>
+
+  <!-- static tf publishers for camera -->
+  <!-- <node name="camera_link_publisher" pkg="tf" type="static_transform_publisher" args="0 -1 1 0.2 0 0 odom camera_link 100" /> -->
+  <node name="camera_link_publisher" pkg="tf" type="static_transform_publisher" args="-0.1 0 1.2 1.570796 0 0 map camera_link 100" />
+  <node name="camera_depth_frame_publisher" pkg="tf" type="static_transform_publisher" args="0 0 0 0 0 0 camera_link camera_depth_frame 100" />
+  <node name="kinect_depth_frame_publisher" pkg="tf" type="static_transform_publisher" args="0 0 0 0 0 0 camera_depth_frame kinect_depth_frame 100" />
+
+  <!-- future obstacle prediction -->
+  <node name="kinect_receiver" pkg="kinect_network" type="ros_kinect_receiver" args="152.23.78.192 5556"/>
+  <node name="skeleton_visualizer" pkg="kinect_network" type="ros_visualize_skeleton"/>
+
+</launch>
