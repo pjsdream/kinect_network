@@ -17,9 +17,14 @@ private:
 
 public:
 
-    static inline int numJoints()
+    static inline int getNumJoints()
     {
         return num_joints_;
+    }
+
+    static const std::vector<std::string>& getJointNames()
+    {
+        return joint_names_;
     }
 
     enum JointState

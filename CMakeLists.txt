@@ -21,15 +21,14 @@ add_custom_target(dummy_${PROJECT_NAME} SOURCES ${extra_files})
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   tf
+  cmake_modules
+  eigen_conversions
 )
 
 ## System dependencies are found with CMake's conventions
 find_package(Boost REQUIRED COMPONENTS
   system
 )
-
-# cmake_modules
-find_package(cmake_modules REQUIRED)
 
 # eigen
 find_package(Eigen REQUIRED)
@@ -164,6 +163,9 @@ add_executable(ros_kinect_receiver
   src/kinect_receiver/kinect_receiver.cpp
   src/kinect_receiver/ros_kinect_receiver.cpp
 )
+add_executable(ros_visualize_skeleton
+  src/ros_visualize_skeleton.cpp
+)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
@@ -172,6 +174,7 @@ add_executable(ros_kinect_receiver
 ## Specify libraries to link a library or executable target against
 target_link_libraries(kinect_common
   ${catkin_LIBRARIES}
+  ${Eigen_LIBRARIES}
 )
 target_link_libraries(kinect_receiver
   zmq
@@ -180,6 +183,10 @@ target_link_libraries(kinect_receiver
 )
 target_link_libraries(ros_kinect_receiver
   zmq
+  kinect_common
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(ros_visualize_skeleton
   kinect_common
   ${catkin_LIBRARIES}
 )
