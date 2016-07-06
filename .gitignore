@@ -30,3 +30,6 @@
 
 # gedit temporary files
 *~
+
+#Qt
+CMakeLists.user

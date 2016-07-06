@@ -160,7 +160,7 @@
   <ItemGroup>
     <ClCompile Include="..\src\kinect\skeleton.cpp" />
     <ClCompile Include="..\src\kinect_receiver\kinect_receiver.cpp" />
-    <ClCompile Include="..\src\reciever.cpp" />
+    <ClCompile Include="..\src\receiver.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\kinect_network\kinect\skeleton.h" />
