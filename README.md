@@ -4,10 +4,10 @@ My personal project for communicating betwee Windows and Linux
 ## kinect_receiver.launch
 
 * Subscribed topics
-** none
+ * none
 
 * Published topics
-** 25 tf's suffixed by body id (e.g., spine_base_0) ranging from 0 to 5 (inclusive):  
+ * 25 tf's suffixed by body id (e.g., spine_base_0) ranging from 0 to 5 (inclusive):  
     "spine_base",  
     "spine_mid",  
     "neck",  
@@ -33,7 +33,7 @@ My personal project for communicating betwee Windows and Linux
     "thumb_left",  
     "hand_tip_right",  
     "thumb_right",  
-** skeleton_visualizer/skeleton (type: visualization_msgs)
+ * skeleton_visualizer/skeleton (type: visualization_msgs)
 
 
 ## Build kinect_sender on Windows connected to Kinect
