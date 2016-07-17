@@ -20,6 +20,8 @@ RosKinectReceiver::~RosKinectReceiver()
 
 void RosKinectReceiver::run()
 {
+    ros::Rate rate(30);
+
     zmq::message_t msg;
 
     while (ros::ok())
@@ -37,8 +39,13 @@ void RosKinectReceiver::run()
             tf::Transform transform;
             transform.setIdentity();
             transform.setOrigin( tf::Vector3(joint_position.x(), joint_position.y(), joint_position.z()) );
-            broadcaster_.sendTransform( tf::StampedTransform(transform, ros::Time::now(), "kinect_depth_frame", joint_name + "_" + std::to_string(id)) );
+
+            // omit user id
+            //broadcaster_.sendTransform( tf::StampedTransform(transform, ros::Time::now(), "kinect_depth_frame", joint_name + "_" + std::to_string(id)) );
+            broadcaster_.sendTransform( tf::StampedTransform(transform, ros::Time::now(), "kinect_depth_frame", joint_name) );
         }
+
+        rate.sleep();
     }
 }
 

@@ -129,13 +129,13 @@ void visualizeSkeleton(int body_id, const std::vector<Eigen::Vector3d>& joint_po
 
 int main(int argc, char** argv)
 {
-    ros::init(argc, argv, "visualize_skeleton");
+    ros::init(argc, argv, "visualize_skeleton2");
 
     tf::TransformListener transform_listener;
 
     ros::Rate rate(30);
 
-    const int num_bodies = 6;
+    const int num_bodies = 1;
     const int num_joints = kinect_network::Skeleton::getNumJoints();
     const std::vector<std::string>& joint_names = kinect_network::Skeleton::getJointNames();
 
@@ -153,7 +153,8 @@ int main(int argc, char** argv)
         {
             for (int j=0; j<num_joints; j++)
             {
-                const std::string joint_name = joint_names[j] + "_" + std::to_string(i);
+                // omit body id
+                const std::string joint_name = joint_names[j];// + "_" + std::to_string(i);
 
                 if (transform_listener.frameExists(joint_name))
                 {
